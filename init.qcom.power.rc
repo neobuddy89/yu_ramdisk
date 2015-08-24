@@ -55,4 +55,19 @@ on property:sys.boot_completed=1
     # enable thermal core_control now
     write /sys/module/msm_thermal/core_control/enabled 1
 
-    # start perfd
+    # enable cpu boost
+    write /sys/module/cpu_boost/parameters/boost_ms 20
+    write /sys/module/cpu_boost/parameters/sync_threshold 1152000
+    write /sys/module/cpu_boost/parameters/input_boost_freq 998400
+    write /sys/module/cpu_boost/parameters/input_boost_ms 500
+    write /sys/module/cpu_boost/parameters/load_based_syncs 1
+
+    # enable hotplug control
+    write /sys/module/msm_hotplug/msm_enabled 1
+    write /sys/module/msm_hotplug/min_cpus_online 1
+    write /sys/module/msm_hotplug/down_lock_duration 500
+    write /sys/module/msm_hotplug/boost_lock_duration 2500
+    write /sys/module/msm_hotplug/update_rates "200 5:100 50:50 350:200"
+    write /sys/module/msm_hotplug/fast_lane_load 100
+
+    start perfd
