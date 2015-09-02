@@ -9,9 +9,6 @@ on post-fs-data
     mkdir /data/.ssh 0750 root shell
     mkdir /cache/recovery 0770 system cache
 
-    # Run sysinit
-    start sysinit
-
 on boot
     # interactive governor
     chown system system /sys/devices/system/cpu/cpufreq/interactive/timer_rate
@@ -120,12 +117,6 @@ on property:ro.radio.noril=1
 
 on property:persist.radio.noril=1
     setprop ro.radio.noril 1
-
-# sysinit (/system/etc/init.d)
-service sysinit /system/bin/sysinit
-    user root
-    oneshot
-    disabled
 
 # bugreport is triggered by holding down volume down, volume up and power
 service bugreport /system/bin/dumpstate -d -p -B \

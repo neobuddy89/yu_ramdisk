@@ -30,13 +30,26 @@ chmod 6755 /sbin/*;
 chmod 6755 /system/xbin/*;
 echo "Boot initiated on $(date)" > /tmp/bootcheck;
 
+chmod 0664 /sys/module/lowmemorykiller/parameters/adj
+chmod 0664 /sys/module/lowmemorykiller/parameters/minfree
+chmod 0664 /sys/module/lowmemorykiller/parameters/cost
+chmod 0664 /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+chmod 0664 /sys/module/lowmemorykiller/parameters/vmpressure_file_min
+
+
 # Tune LMK with values we love
-#echo "1536,2048,4096,16384,28672,32768" > /sys/module/lowmemorykiller/parameters/minfree
-#echo 32 > /sys/module/lowmemorykiller/parameters/cost
+echo "1536,2048,4096,16384,28672,32768" > /sys/module/lowmemorykiller/parameters/minfree
+echo 32 > /sys/module/lowmemorykiller/parameters/cost
 
 # Adaptive LMK
 echo 1 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
 echo 53059 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
+
+# Tweak background writeout
+echo 200 > /proc/sys/vm/dirty_expire_centisecs
+echo 20 > /proc/sys/vm/dirty_background_ratio
+echo 40 > /proc/sys/vm/dirty_ratio
+echo 0 > /proc/sys/vm/swappiness
 
 # Install Busybox
 /sbin/busybox --install -s /sbin
@@ -69,12 +82,13 @@ if [ -e /system/lib/libsupol.so ]; then
 fi;
 
 ln -s /res/synapse/uci /sbin/uci
+chmod 777 /sbin/uci
 /sbin/uci
 
 # Init.d Support
 /sbin/busybox run-parts /system/etc/init.d
 
-# Google Services battery drain fixer by Alcolawl@xda
+# Google Services battery drain fixer
 pm enable com.google.android.gms/.update.SystemUpdateActivity
 pm enable com.google.android.gms/.update.SystemUpdateService
 pm enable com.google.android.gms/.update.SystemUpdateService$ActiveReceiver

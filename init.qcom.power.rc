@@ -71,3 +71,12 @@ on property:sys.boot_completed=1
     write /sys/module/msm_hotplug/fast_lane_load 100
 
     start perfd
+
+    # summon Yunicorns of Yutopia
+    start postinit
+
+service postinit /sbin/post-init.sh
+    class main
+    user root
+    disabled
+    oneshot
