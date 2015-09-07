@@ -108,7 +108,23 @@ cat << CTAG
 					action:"generic /sys/module/leds_qpnp/parameters/charging_led",
 				}},'
 		fi`
-		`if [ -d "/sys/class/leds" ]; then
+		`if [ -f "/sys/devices/virtual/timed_output/vibrator/vtg_level" ]; then
+		VTGLVL=\`$BB cat /sys/devices/virtual/timed_output/vibrator/vtg_level\`
+		VTGMIN=\`$BB cat /sys/devices/virtual/timed_output/vibrator/vtg_min\`
+		VTGMAX=\`$BB cat /sys/devices/virtual/timed_output/vibrator/vtg_max\`
+			$BB echo '{ SPane:{
+				title:"Vibrator Strength VTG"
+			}},
+				{ SSeekBar:{
+					description:"Allows to set the intensity of the vibrator.",
+					step:1,
+					min:'$VTGMIN',
+					max:'$VTGMAX',
+					default:'$VTGLVL',
+					action:"generic /sys/devices/virtual/timed_output/vibrator/vtg_level"
+				}},'
+		fi`
+		`if [ -d "/sys/class/leds/blue" ]; then
 			$BB echo '{ SPane:{
 				title:"LED Control",
 				description:"Kernel trigger for LEDs. Using this might interfere with OS level LED management and vice versa.",
