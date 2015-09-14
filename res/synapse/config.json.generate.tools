@@ -11,7 +11,7 @@ cat << CTAG
 			fi`
 			{ SPane:{
 				title:"SELinux Status",
-				description:"Allows you to change your SELinux (Security-Enhanced Linux) Status from Enforcing (policy is enforced) to Permissive (prints warnings instead of enforcing).",
+				description:"Allows you to toggle your SELinux (Security-Enhanced Linux) Status between Enforcing (policy is enforced) and Permissive (prints warnings instead of enforcing).",
 			}},
 				{ SOptionList:{
 					default:`getenforce`,
@@ -81,7 +81,7 @@ cat << CTAG
 					}},'
 				fi`
 			{ SDescription:{
-				description:"To report any issue with the kernel, you should share the zip file of logs created by using below button. This will put logcat, dmesg and ramoops (last_kmsg) into one zip file which will be used only for debug purposes."
+				description:"To report any issue with the kernel, you should share the zip file of logs created by using below button. This will put logcat, dmesg and ramoops (last_kmsg) into one zip file which will be used for debug purposes only."
 			}},
 				{ SButton:{
 					label:"Save Logs",
