@@ -10,15 +10,6 @@ cat << CTAG
 			$BB echo '{ SPane:{
 				title:"Low Power Mode (LPM) Settings"
 			}},'
-			if [ -f "/sys/module/lpm_levels/parameters/sleep_disabled" ]; then
-			C0=\`bool /sys/module/lpm_levels/parameters/sleep_disabled\`;
-				$BB echo '{ SCheckBox:{
-					description:"This is only for debug purpose and should be unchecked all the time.",
-					label:"Disable Sleep",
-					default:'$C0',
-					action:"boolean /sys/module/lpm_levels/parameters/sleep_disabled"
-				}},'
-			fi
 			if [ -f "$PM/cpu0/wfi/idle_enabled" ]; then
 			C0=\`bool $PM/cpu0/wfi/idle_enabled\`;
 				$BB echo '{ SCheckBox:{
