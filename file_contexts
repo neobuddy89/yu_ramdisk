@@ -272,6 +272,7 @@
 /dev/rtc0                                       u:object_r:rtc_device:s0
 /dev/sensors                                    u:object_r:sensors_device:s0
 /dev/smd.*                                      u:object_r:smd_device:s0
+/dev/smd11                                      u:object_r:smd11_device:s0
 /dev/smem_log                                   u:object_r:smem_log_device:s0
 /dev/ttyHSL0                                    u:object_r:console_device:s0
 /dev/ttyHS[0-9]*                                u:object_r:serial_device:s0
@@ -310,6 +311,7 @@
 /dev/wcnss_ctrl                                 u:object_r:wcnss_device:s0
 /dev/wcnss_wlan                                 u:object_r:wcnss_device:s0
 /dev/pta                                        u:object_r:pta_device:s0
+/dev/mdss_rotator                               u:object_r:graphics_device:s0
 /dev/hbtp_input                                 u:object_r:hbtp_device:s0
 /dev/jdi-bu21150                                u:object_r:bu21150_device:s0
 /dev/voice_svc                                  u:object_r:voice_device:s0
@@ -346,6 +348,7 @@
 /dev/socket/rild2-debug                         u:object_r:rild_debug_socket:s0
 /dev/socket/rild3                               u:object_r:rild_socket:s0
 /dev/socket/rild3-debug                         u:object_r:rild_debug_socket:s0
+/dev/socket/msm_irqbalance                      u:object_r:msm_irqbalance_socket:s0
 
 ###################################
 # System files
@@ -440,6 +443,7 @@
 /sys/devices/qpnp-charger.*/power_supply/battery(/.*)?              u:object_r:sysfs_battery_supply:s0
 /sys/devices/system/cpu/cpu0/rq-stats/*                             u:object_r:sysfs_rqstats:s0
 /sys/devices/virtual/graphics/fb([0-2])+/idle_time                  u:object_r:sysfs_graphics:s0
+/sys/devices/virtual/graphics/fb([0-2])+/dynamic_fps                u:object_r:sysfs_graphics:s0
 /sys/devices/virtual/graphics/fb([0-2])+/product_description        u:object_r:sysfs_graphics:s0
 /sys/devices/virtual/graphics/fb([0-2])+/vendor_name                u:object_r:sysfs_graphics:s0
 /sys/devices/virtual/hsicctl/hsicctl1[0-9]/modem_wait               u:object_r:sysfs_hsic_modem_wait:s0
@@ -490,6 +494,7 @@
 /data/misc/location(/.*)?                                           u:object_r:location_data_file:s0
 /data/FTM_AP(/.*)?                                                  u:object_r:mmi_data_file:s0
 /data/misc/hbtp(/.*)?                                               u:object_r:hbtp_log_file:s0
+/data/local/.Drm(/.*)?                                              u:object_r:oma_drm_data_file:s0
 /data/misc/qlogd(/.*)?                                              u:object_r:qlogd_data_file:s0
 /data/misc/dts(/.*)?                                                u:object_r:dts_data_file:s0
 
@@ -576,12 +581,6 @@
 #Context for mediaserver
 /data/display-tests/media(/.*)?                 u:object_r:display_test_media_file:s0
 #line 1 "device/cyanogen/msm8916-common/sepolicy/file_contexts"
-/sys/devices/virtual/graphics/fb0/aco           u:object_r:display_sysfs:s0
-/sys/devices/virtual/graphics/fb0/cabc          u:object_r:display_sysfs:s0
-/sys/devices/virtual/graphics/fb0/color_enhance u:object_r:display_sysfs:s0
-/sys/devices/virtual/graphics/fb0/rgb           u:object_r:display_sysfs:s0
-/sys/devices/virtual/graphics/fb0/sre           u:object_r:display_sysfs:s0
-
 /persist/.genmac                                u:object_r:wifi_data_file:s0
 /persist/.bt_nv.bin                             u:object_r:bluetooth_data_file:s0
 
@@ -589,6 +588,7 @@
 /system/etc/init\.qcom\.bt\.sh                  u:object_r:bluetooth_loader_exec:s0
 
 /dev/smd3                                       u:object_r:hci_attach_dev:s0
+/dev/mmc3416x                                   u:object_r:sensors_device:s0
 #line 1 "device/yu/lettuce/sepolicy/file_contexts"
 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0040/gesture u:object_r:touchpanel_sysfs:s0
 #line 1 "vendor/cm/sepolicy/file_contexts"
@@ -628,3 +628,12 @@
 
 # Lockscreen wallpaper
 /data/system/users/[0-9]+/keyguard_wallpaper   u:object_r:wallpaper_file:s0
+
+# Persistent properties
+/persist/properties         u:object_r:persist_property_file:s0
+
+# LiveDisplay
+/sys/devices/virtual/graphics/fb0/aco           u:object_r:livedisplay_sysfs:s0
+/sys/devices/virtual/graphics/fb0/cabc          u:object_r:livedisplay_sysfs:s0
+/sys/devices/virtual/graphics/fb0/rgb           u:object_r:livedisplay_sysfs:s0
+/sys/devices/virtual/graphics/fb0/sre           u:object_r:livedisplay_sysfs:s0
