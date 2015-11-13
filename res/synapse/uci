@@ -11,7 +11,7 @@ SYNAPSE_SD_DIR=/sdcard/Synapse;
 # Use this trigger to reset Synapse settings on boot.
 # Just increment it for cases like default parameters are changed
 # for some drivers and you wish user to use these parameters on boot.
-KERNEL_CURR=20151002-lollipop;
+KERNEL_CURR=20151027-lollipop;
 
 # Mount root as RW to apply tweaks and settings
 $BB mount -t rootfs -o remount,rw rootfs;

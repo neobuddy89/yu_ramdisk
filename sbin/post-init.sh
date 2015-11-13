@@ -39,7 +39,7 @@ chmod 0664 /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
 chmod 0664 /sys/module/lowmemorykiller/parameters/vmpressure_file_min
 
 # Tune LMK with values we love
-echo "1536,2048,4096,16384,28672,32768" > /sys/module/lowmemorykiller/parameters/minfree
+echo "12288,15360,18432,21504,24576,30720" > /sys/module/lowmemorykiller/parameters/minfree
 echo 32 > /sys/module/lowmemorykiller/parameters/cost
 
 # Adaptive LMK

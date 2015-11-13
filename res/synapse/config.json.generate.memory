@@ -203,7 +203,7 @@ cat << CTAG
 									$BB echo 'title:"Empty App", description:"Apps closed by the user but ready to run.", default:124' ;;
 							esac
 						$BB echo ', action:"lmk '${LMK}'",
-						unit:" MB", min:1, max:300 }},'
+						unit:" MB", min:10, max:350 }},'
 					done
 			fi`
     ]
