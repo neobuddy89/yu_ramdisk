@@ -32,6 +32,13 @@ $BB chmod 6755 /sbin/*;
 $BB chmod 6755 /system/xbin/*;
 $BB echo "Boot initiated on $(date)" > /tmp/bootcheck;
 
+# Permissions for LMK
+$BB chmod 0664 /sys/module/lowmemorykiller/parameters/adj
+$BB chmod 0664 /sys/module/lowmemorykiller/parameters/minfree
+$BB chmod 0664 /sys/module/lowmemorykiller/parameters/cost
+$BB chmod 0664 /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+$BB chmod 0664 /sys/module/lowmemorykiller/parameters/vmpressure_file_min
+
 # Tune LMK with values we love
 $BB echo "12288,15360,18432,21504,24576,30720" > /sys/module/lowmemorykiller/parameters/minfree
 $BB echo 32 > /sys/module/lowmemorykiller/parameters/cost
