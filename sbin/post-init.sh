@@ -46,12 +46,10 @@ $BB echo 32 > /sys/module/lowmemorykiller/parameters/cost
 # Adaptive LMK
 $BB echo 1 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
 $BB echo 53059 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
+
+# Process Reclaim
 $BB echo 1 > /sys/module/process_reclaim/parameters/enable_process_reclaim
 $BB echo 100 > /sys/module/process_reclaim/parameters/pressure_max
-$BB echo 200 > /proc/sys/vm/dirty_expire_centisecs
-$BB echo 20 > /proc/sys/vm/dirty_background_ratio
-$BB echo 40 > /proc/sys/vm/dirty_ratio
-$BB echo 0 > /proc/sys/vm/swappiness
 
 # Tweak VM
 $BB echo 200 > /proc/sys/vm/dirty_expire_centisecs
