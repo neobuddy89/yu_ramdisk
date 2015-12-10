@@ -1,0 +1,76 @@
+on early-init
+    write /sys/devices/system/cpu/cpu0/online 1
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
+
+on enable-low-power
+    # Adaptive LMK
+    write /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk 1
+    write /sys/module/lowmemorykiller/parameters/vmpressure_file_min 53059
+
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+
+    # HMP scheduler load tracking settings
+    write /proc/sys/kernel/sched_ravg_hist_size 3
+
+    # HMP Task packing settings for 8916
+    write /proc/sys/kernel/sched_small_task 20
+    write /proc/sys/kernel/sched_mostly_idle_load 30
+    write /proc/sys/kernel/sched_mostly_idle_nr_run 3
+
+    # disable thermal core_control to update interactive governor settings
+    write /sys/module/msm_thermal/core_control/enabled 0
+
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "impulse"
+    write /sys/devices/system/cpu/cpufreq/impulse/above_hispeed_delay "20000 800000:40000 1000000:20000"
+    write /sys/devices/system/cpu/cpufreq/impulse/go_hispeed_load 95
+    write /sys/devices/system/cpu/cpufreq/impulse/hispeed_freq 1152000
+    write /sys/devices/system/cpu/cpufreq/impulse/powersave_bias 1
+    write /sys/devices/system/cpu/cpufreq/impulse/io_is_busy 1
+    write /sys/devices/system/cpu/cpufreq/impulse/target_loads "85 700000:90 900000:70"
+    write /sys/devices/system/cpu/cpufreq/impulse/min_sample_time 40000
+    write /sys/devices/system/cpu/cpufreq/impulse/timer_rate 30000
+    write /sys/devices/system/cpu/cpufreq/impulse/max_freq_hysteresis 100000
+    write /sys/devices/system/cpu/cpufreq/impulse/timer_slack 30000
+
+    # enable cpu boost
+    write /sys/module/cpu_boost/parameters/boost_ms 20
+    write /sys/module/cpu_boost/parameters/sync_threshold 1401600
+    write /sys/module/cpu_boost/parameters/input_boost_freq 1152000
+    write /sys/module/cpu_boost/parameters/input_boost_ms 500
+    write /sys/module/cpu_boost/parameters/load_based_syncs 1
+    write /sys/module/cpu_boost/parameters/wakeup_boost Y
+
+    # enable hotplug control
+    write /sys/module/msm_hotplug/msm_enabled 1
+    write /sys/module/msm_hotplug/min_cpus_online 1
+    write /sys/module/msm_hotplug/down_lock_duration 500
+    write /sys/module/msm_hotplug/boost_lock_duration 2500
+    write /sys/module/msm_hotplug/update_rates "200 5:100 50:50 350:200"
+    write /sys/module/msm_hotplug/fast_lane_load 100
+
+    # enable thermal core_control now
+    write /sys/module/msm_thermal/core_control/enabled 1
+
+    rm /data/system/perfd/default_values
+    start perfd
+
+    # summon Yunicorns of Yutopia
+    start postinit
+
+on charger
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
+
+on class_start:late_start
+    trigger enable-low-power
+
+on property:init.svc.recovery=running
+    trigger enable-low-power
+
+service postinit /sbin/post-init.sh
+    class main
+    user root
+    disabled
+    oneshot
